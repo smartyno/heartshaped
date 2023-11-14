@@ -1,0 +1,83 @@
+let foregroundImg; // Top image
+let backgroundImg; // Background image
+let brushSize = 30;
+let isDrawing = false;
+
+function preload() {
+  // Load the top (foreground) image from a URL
+  let foregroundImageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Chevet_de_Saint-Paul_de_Mausole.JPG/1920px-Chevet_de_Saint-Paul_de_Mausole.JPG';
+  foregroundImg = loadImage(foregroundImageUrl);
+
+  // Load the background image from a URL
+  let backgroundImageUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1920px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg';
+  backgroundImg = loadImage(backgroundImageUrl);
+}
+
+function setup() {
+  createCanvas(400, 400);
+  foregroundImg.resize(width, height); // Resize the top image to fit the canvas size
+
+  // Add mouse event listeners
+  canvas = createCanvas(400, 400);
+  canvas.mousePressed(startDrawing);
+  canvas.mouseReleased(stopDrawing);
+}
+
+function draw() {
+  if (!isDrawing) {
+    // Initially, display the foreground image with transparency
+    background(255, 0); // Transparent background
+    image(foregroundImg, 0, 0, width, height);
+  } else {
+    // When drawing, reveal parts of the background image
+    let posX = mouseX;
+    let posY = mouseY;
+
+    // Draw a rectangle (brush) on the canvas to reveal the background image
+    noStroke();
+    fill(0, 0, 0, 0); // Use a transparent fill
+    rectMode(CENTER);
+    rect(posX, posY, brushSize, brushSize);
+
+    // Update the top image by copying the background image
+    foregroundImg.copy(
+      backgroundImg,
+      posX - brushSize / 2, 
+      posY - brushSize / 2, 
+      brushSize, 
+      brushSize, 
+      posX - brushSize / 2, 
+      posY - brushSize / 2, 
+      brushSize, 
+      brushSize
+    );
+
+    // Display the updated top image
+    image(foregroundImg, 0, 0, width, height);
+  }
+}
+
+function startDrawing() {
+  isDrawing = true;
+}
+
+function stopDrawing() {
+  isDrawing = false;
+}
+
+function keyPressed() {
+  // Clear the canvas when the 'c' key is pressed
+  if (key === 'c' || key === 'C') {
+    clear();
+    // Redraw the foreground image with transparency
+    background(255, 0);
+    image(foregroundImg, 0, 0, width, height);
+  }
+}
+
+function mouseWheel(event) {
+  // Adjust the brush size with the mouse wheel
+  brushSize += event.delta;
+  brushSize = constrain(brushSize, 10, 100); // Limit the brush size
+  return false; // Prevent the default behavior of scrolling the page
+}
