@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Title</title>
-    <meta http-equiv="Content-Security-Policy" content="img-src 'self' https://assets.objkt.media/">
+    <meta http-equiv="Content-Security-Policy" content="img-src *">
     <style>
         body {
             display: flex;
@@ -22,15 +22,15 @@
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Set min and max width to 300px */
             grid-gap: 10px;
-            max-width: 800px;
+            max-width: 920px;
             margin: 0 auto;
         }
 
         .grid-item {
-            width: 100%;
-            height: 200px;
+            width: 300px;
+            height: 300px; /* Set a fixed height of 300px */
             overflow: hidden;
         }
 
@@ -42,8 +42,10 @@
 
         @media screen and (max-width: 600px) {
             .grid-item {
-                height: auto;
+                height: 300px; /* Adjust height for mobile */
             }
+            .grid-container {
+                grid-template-columns: 1fr; /* Change to a single column on mobile */
         }
     </style>
 </head>
@@ -60,6 +62,7 @@
         <div class="grid-item">
             <img src="https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact" alt="Image 3">
         </div>
+        <!-- Repeat the above three grid items for the other six images -->
     </div>
 </body>
 </html>
