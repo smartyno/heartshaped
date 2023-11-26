@@ -109,20 +109,29 @@
     }
 
     function setup() {
-      // Set a fixed canvas size
-      let canvas = createCanvas(1400, 1400);
-      canvas.parent('p5-canvas-container');
+  // Set a fixed canvas size
+  let canvas = createCanvas(1400, 1400);
+  canvas.parent('p5-canvas-container');
 
-      // Resize images to fit the canvas while maintaining aspect ratio
-      foregroundImg.resize(width, height);
-      backgroundImg.resize(width, height);
+  // Resize images to fit the canvas while maintaining aspect ratio
+  foregroundImg.resize(width, height);
+  backgroundImg.resize(width, height);
 
-      // Add mouse event listeners
-      canvas.mousePressed(startDrawing);
-      canvas.mouseReleased(stopDrawing);
-      canvas.touchStarted(startDrawing);
-      canvas.touchEnded(stopDrawing);
-    }
+  // Add mouse event listeners
+  canvas.mousePressed(startDrawing);
+  canvas.mouseReleased(stopDrawing);
+
+  // Add touch event listeners for mobile devices
+  canvas.ontouchstart = function (event) {
+    startDrawing();
+    return false; // prevent default
+  };
+
+  canvas.ontouchend = function (event) {
+    stopDrawing();
+    return false; // prevent default
+  };
+}
 
     function draw() {
       // Scale down the content by 50%
