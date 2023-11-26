@@ -33,6 +33,21 @@
       width: 700px;
       height: 700px;
       overflow: hidden;
+      position: relative;
+    }
+
+    .script-container::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://smartyno.github.io/heartshaped/Tom_shpd_HD.png');
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
     }
 
     .text-container-right {
@@ -89,9 +104,6 @@
       <p>This is the right text container.</p>
     </div>
   </div>
-
-  <!-- Display background image on mobile -->
-  <img src="https://smartyno.github.io/heartshaped/Tom_shpd_HD.png" alt="Background Image" id="background-image">
 
   <script>
     let foregroundImg; // Top image
