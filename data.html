@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <title>Reveal The Lake</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #canvas-container {
+      position: relative;
+    }
+
+    button {
+      margin-top: 20px;
+      left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container">
+  <script>
+    let foregroundImg; // Top image
+    let backgroundImg; // Background image
+    let brushSize = 30;
+    let isDrawing = false;
+
+    function preload() {
+      // Load the top (foreground) image from a URL
+      let foregroundImageUrl = 'https://smartyno.github.io/heartshaped/digital.1.jpg';
+      foregroundImg = loadImage(foregroundImageUrl);
+
+      // Load the background image from a URL
+      let backgroundImageUrl = 'https://smartyno.github.io/heartshaped/Tom_shpd_HD.png';
+      backgroundImg = loadImage(backgroundImageUrl);
+    }
+
+    function setup() {
+      // Set a fixed canvas size
+      createCanvas(1000, 1000);
+
+
+      // Resize images to fit the canvas while maintaining aspect ratio
+      foregroundImg.resize(width, height);
+      backgroundImg.resize(width, height);
+
+      // Add mouse event listeners
+      canvas = createCanvas(width, height);
+      canvas.mousePressed(startDrawing);
+      canvas.mouseReleased(stopDrawing);
+    }
+
+    function draw() {
+      // Scale down the content by 50%
+      scale(0.5);
+    
+      
+      if (!isDrawing) {
+        // Initially, display the foreground image with transparency
+        background(255, 0); // Transparent background
+        image(foregroundImg, 0, 0, width, height);
+      } else {
+        // When drawing, reveal parts of the background image
+        let scaledMouseX = mouseX * 2; // Scale mouse coordinates back up
+        let scaledMouseY = mouseY * 2;
+
+        // Draw a rectangle (brush) on the canvas to reveal the background image
+        noFill(); // No fill for the center
+        stroke(255); // White stroke for the border
+        strokeWeight(2); // Adjust the thickness of the border
+        rectMode(CENTER);
+
+        // Draw the rectangle with white border and no fill
+        rect(scaledMouseX, scaledMouseY, brushSize, brushSize);
+
+        // Update the top image by copying the background image
+        foregroundImg.copy(
+          backgroundImg,
+          scaledMouseX - brushSize / 2,
+          scaledMouseY - brushSize / 2,
+          brushSize,
+          brushSize,
+          scaledMouseX - brushSize / 2,
+          scaledMouseY - brushSize / 2,
+          brushSize,
+          brushSize
+        );
+
+        // Display the updated top image
+        image(foregroundImg, 0, 0, width, height);
+      }
+    }
+
+    function startDrawing() {
+      isDrawing = true;
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    function mouseWheel(event) {
+      // Adjust the brush size with the mouse wheel
+      brushSize += event.delta;
+      brushSize = constrain(brushSize, 10, 100); // Limit the brush size
+      return false; // Prevent the default behavior of scrolling the page
+    }
+  </script>
+   </div>
+
+   <button onclick="setBackground()">Background</button>
+   <button onclick="setForeground()">Foreground</button>
+   
+   <script>
+     function setBackground() {
+       // Set the background image
+       background(255, 0); // Transparent background
+       image(backgroundImg, 0, 0, width, height);
+     }
+ 
+     function setForeground() {
+       // Set the foreground image
+       background(255, 0); // Transparent background
+       image(foregroundImg, 0, 0, width, height);
+     }
+   </script> 
+</body>
+</html>
