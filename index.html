@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Title</title>
+    <title>Heartshaped</title>
     <meta http-equiv="Content-Security-Policy" content="img-src *">
     <style>
         body {
@@ -16,21 +16,49 @@
             padding-top: 60px;
         }
 
-        h1 {
-            margin-bottom: 20px;
+        .container {
+            display: flex;
+            max-width: 100%;
+            margin: 0 10px; /* Add margin to the container */
+        }
+
+        .info-container {
+            width: 300px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            margin-right: 10px; /* Add margin to the right */
         }
 
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Set min and max width to 300px */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             grid-gap: 10px;
             max-width: 920px;
             margin: 0 auto;
         }
 
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button {
+            width: 150px; /* Set the width to your desired fixed value */
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block; /* Ensures each button is on a new line */
+            margin-bottom: 10px; /* Add some spacing between buttons */
+        }
+
         .grid-item {
             width: 300px;
-            height: 300px; /* Set a fixed height of 300px */
+            height: 300px;
             overflow: hidden;
         }
 
@@ -42,27 +70,48 @@
 
         @media screen and (max-width: 600px) {
             .grid-item {
-                height: 300px; /* Adjust height for mobile */
+                height: 300px;
             }
             .grid-container {
-                grid-template-columns: 1fr; /* Change to a single column on mobile */
+                grid-template-columns: 1fr;
+            }
+            .container {
+                flex-direction: column;
+            }
+            .info-container {
+                width: 260px;
+                margin: 0; /* Remove right margin on mobile */
+                margin-bottom: 10px; /* Add bottom margin on mobile */
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Project Title</h1>
-    
-    <div class="grid-container">
-        <div class="grid-item">
-            <img src="https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact" alt="Image 1">
+    <div class="container">
+        <div class="info-container">
+            <h1>PROJECT TITLE</h1>
+            <p>Project info goes here...</p>
+             <!-- Button to link to the second page -->
+             <div class="button-container">
+                <a href="https://objkt.com/collection/KT1JMf7LDpe2n2g3p99xmru93Hg5vjSU3p65" target="_blank" class="button">Open The Collection</a> 
+            </div>
+            <br>
+             <div class="button-container">
+                <a href="data.html" class="button">Reveal The Lake</a>
+            </div>
         </div>
-        <div class="grid-item">
-            <img src="https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact" alt="Image 2">
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact" alt="Image 1">
+            </div>
+            <div class="grid-item">
+                <img src="https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact" alt="Image 2">
+            </div>
+            <div class="grid-item">
+                <img src="https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact" alt="Image 3">
+            </div>
+            <!-- Repeat the above three grid items for the other six images -->
         </div>
-        <div class="grid-item">
-            <img src="https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact" alt="Image 3">
-        </div>
-        <!-- Repeat the above three grid items for the other six images -->
     </div>
 </body>
 </html>
