@@ -7,22 +7,91 @@
   <title>Reveal The Lake</title>
   <style>
     body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
       margin: 0;
+      padding-top: 60px;
+    }
+
+    .page-container {
+      display: flex;
+      max-width: 100%;
+      margin: 0 10px; /* Add margin to the container */
+    }
+
+    .text-container {
+      width: 300px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      margin-right: 10px; /* Add margin to the right */
+    }
+
+    .script-container {
+      width: 700px;
+      height: 700px;
       overflow: hidden;
     }
 
-    #canvas-container {
-      position: relative;
+    .text-container-right {
+      width: 300px;
+      padding: 20px;
+      background-color: #f0f0f0;
     }
 
-    button {
-      margin-top: 20px;
-      left: 20px;
-    }
+    .button-container {
+            margin-top: 20px;
+        }
+
+        .button {
+            width: 150px; /* Set the width to your desired fixed value */
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block; /* Ensures each button is on a new line */
+            margin-bottom: 10px; /* Add some spacing between buttons */
+        }
+  
+        @media screen and (max-width: 600px) {
+            .page-container {
+                flex-direction: column;
+            }
+            .text-container,
+            .script-container,
+            .text-container-right {
+                width: 100%;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+        }
+
   </style>
 </head>
 <body>
-  <div id="canvas-container">
+  <div class="page-container">
+    <div class="text-container">
+      <h2>Left Text</h2>
+      <p>This is the left text container.</p>
+      <div class="button-container">
+        <a href="data.html" class="button">Commit Original</a>
+    </div>
+    </div>
+    <div class="script-container" id="p5-canvas-container"></div>
+    <div class="text-container-right">
+      <h2>Right Text</h2>
+      <p>This is the right text container.</p>
+    </div>
+  </div>
+
+
   <script>
     let foregroundImg; // Top image
     let backgroundImg; // Background image
@@ -41,24 +110,24 @@
 
     function setup() {
       // Set a fixed canvas size
-      createCanvas(1000, 1000);
-
+      let canvas = createCanvas(1400, 1400);
+      canvas.parent('p5-canvas-container');
 
       // Resize images to fit the canvas while maintaining aspect ratio
       foregroundImg.resize(width, height);
       backgroundImg.resize(width, height);
 
       // Add mouse event listeners
-      canvas = createCanvas(width, height);
       canvas.mousePressed(startDrawing);
       canvas.mouseReleased(stopDrawing);
+      canvas.touchStarted(startDrawing);
+      canvas.touchEnded(stopDrawing);
     }
 
     function draw() {
       // Scale down the content by 50%
       scale(0.5);
-    
-      
+
       if (!isDrawing) {
         // Initially, display the foreground image with transparency
         background(255, 0); // Transparent background
@@ -74,7 +143,7 @@
         strokeWeight(2); // Adjust the thickness of the border
         rectMode(CENTER);
 
-        // Draw the rectangle with white border and no fill
+        // Draw the rectangle with a white border and no fill
         rect(scaledMouseX, scaledMouseY, brushSize, brushSize);
 
         // Update the top image by copying the background image
@@ -109,24 +178,11 @@
       brushSize = constrain(brushSize, 10, 100); // Limit the brush size
       return false; // Prevent the default behavior of scrolling the page
     }
-  </script>
-   </div>
 
-   <button onclick="setBackground()">Background</button>
-   <button onclick="setForeground()">Foreground</button>
-   
-   <script>
-     function setBackground() {
-       // Set the background image
-       background(255, 0); // Transparent background
-       image(backgroundImg, 0, 0, width, height);
-     }
- 
-     function setForeground() {
-       // Set the foreground image
-       background(255, 0); // Transparent background
-       image(foregroundImg, 0, 0, width, height);
-     }
-   </script> 
+    // Disable right-click context menu on the canvas
+       document.getElementById("defaultCanvas").oncontextmenu = function () {
+      return false;
+       }
+  </script>
 </body>
 </html>
