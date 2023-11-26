@@ -42,37 +42,36 @@
     }
 
     .button-container {
-            margin-top: 20px;
-        }
+      margin-top: 20px;
+    }
 
-        .button {
-            width: 150px; /* Set the width to your desired fixed value */
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            text-align: center;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            display: block; /* Ensures each button is on a new line */
-            margin-bottom: 10px; /* Add some spacing between buttons */
-        }
-  
-        @media screen and (max-width: 600px) {
-            .page-container {
-                flex-direction: column;
-            }
-            .text-container,
-            .script-container,
-            .text-container-right {
-                width: 100%;
-                margin: 0;
-                margin-bottom: 10px;
-            }
-        }
+    .button {
+      width: 150px; /* Set the width to your desired fixed value */
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      text-decoration: none;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      display: block; /* Ensures each button is on a new line */
+      margin-bottom: 10px; /* Add some spacing between buttons */
+    }
 
+    @media screen and (max-width: 600px) {
+      .page-container {
+        flex-direction: column;
+      }
+      .text-container,
+      .script-container,
+      .text-container-right {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -82,7 +81,7 @@
       <p>This is the left text container.</p>
       <div class="button-container">
         <a href="data.html" class="button">Commit Original</a>
-    </div>
+      </div>
     </div>
     <div class="script-container" id="p5-canvas-container"></div>
     <div class="text-container-right">
@@ -91,6 +90,8 @@
     </div>
   </div>
 
+  <!-- Display background image on mobile -->
+  <img src="https://smartyno.github.io/heartshaped/Tom_shpd_HD.png" alt="Background Image" id="background-image">
 
   <script>
     let foregroundImg; // Top image
@@ -109,29 +110,29 @@
     }
 
     function setup() {
-  // Set a fixed canvas size
-  let canvas = createCanvas(1400, 1400);
-  canvas.parent('p5-canvas-container');
+      // Set a fixed canvas size
+      let canvas = createCanvas(1400, 1400);
+      canvas.parent('p5-canvas-container');
 
-  // Resize images to fit the canvas while maintaining aspect ratio
-  foregroundImg.resize(width, height);
-  backgroundImg.resize(width, height);
+      // Resize images to fit the canvas while maintaining aspect ratio
+      foregroundImg.resize(width, height);
+      backgroundImg.resize(width, height);
 
-  // Add mouse event listeners
-  canvas.mousePressed(startDrawing);
-  canvas.mouseReleased(stopDrawing);
+      // Add mouse event listeners
+      canvas.mousePressed(startDrawing);
+      canvas.mouseReleased(stopDrawing);
 
-  // Add touch event listeners for mobile devices
-  canvas.ontouchstart = function (event) {
-    startDrawing();
-    return false; // prevent default
-  };
+      // Add touch event listeners for mobile devices
+      canvas.ontouchstart = function (event) {
+        startDrawing();
+        return false; // prevent default
+      };
 
-  canvas.ontouchend = function (event) {
-    stopDrawing();
-    return false; // prevent default
-  };
-}
+      canvas.ontouchend = function (event) {
+        stopDrawing();
+        return false; // prevent default
+      };
+    }
 
     function draw() {
       // Scale down the content by 50%
@@ -189,9 +190,9 @@
     }
 
     // Disable right-click context menu on the canvas
-       document.getElementById("defaultCanvas").oncontextmenu = function () {
+    document.getElementById("defaultCanvas").oncontextmenu = function () {
       return false;
-       }
+    };
   </script>
 </body>
 </html>
