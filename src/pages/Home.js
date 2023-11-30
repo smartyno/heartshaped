@@ -2,15 +2,25 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import '../styles/home.css';
 import useWallet from '../context/wallet';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const { wallet, connectWallet } = useWallet();
+  const { wallet, connectWallet, disconnectWallet } = useWallet();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await disconnectWallet();
+    navigate('/');
+  };
   console.log({ wallet });
   return (
     <>
       <Helmet>
         <title>Heartshaped</title>
       </Helmet>
+      <header>
+        {wallet && <button className='button' onClick={handleSignOut}>Disconnect</button>}
+      </header>
       <div className='container'>
         <div className='info-container'>
           <h1>PROJECT TITLE</h1>
@@ -32,7 +42,7 @@ const Home = () => {
         <div className='grid-container'>
           <div className='grid-item'>
             <img
-              src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+              src='https://ipfs.io/ipfs/QmTcBXoreQXbgFr8Yug4BAkJ75LtLMgCdsyBwHpkHCgWsB'
               alt='Image 1'
             />
           </div>
