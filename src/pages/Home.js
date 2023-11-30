@@ -123,7 +123,9 @@ const Home = () => {
             </div>
           </>
         ) : <div>{token.map(({ token_id, fa_contract, display_uri }) => (
-          <img key={token_id} src={`https://ipfs.io/ipfs/${display_uri.substring(7)}`} alt='' />))}</div>}
+          <a href={`data/${token_id}/${fa_contract}`}><img key={token_id}
+                                                           src={`https://ipfs.io/ipfs/${display_uri.substring(7)}`}
+                                                           alt='' /></a>))}</div>}
       </div>
     </>
   );

@@ -78,7 +78,7 @@ const Data = () => {
             <button className='button'>Commit Original</button>
           </div>
         </div>
-        <img src={`https://objkt.com/asset/${faContract}/${tokenId}`} alt='' />
+        <img src={`https://ipfs.io/ipfs/${display_uri.substring(7)}`} alt='' />
         {/*<div className='script-container' id='p5-canvas-container' />*/}
         <div className='text-container-right'>
           <h2>Right Text</h2>
