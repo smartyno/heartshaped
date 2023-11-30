@@ -1,0 +1,82 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    padding-top: 60px;
+}
+
+.container {
+    display: flex;
+    max-width: 100%;
+    margin: 0 10px; /* Add margin to the container */
+}
+
+.info-container {
+    width: 300px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    margin-right: 10px; /* Add margin to the right */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 10px;
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+.button-container {
+    margin-top: 20px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.button {
+    width: auto; /* Set the width to your desired fixed value */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px; /* Add some spacing between buttons */
+}
+
+.grid-item {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 600px) {
+    .grid-item {
+        height: 300px;
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .info-container {
+        width: 260px;
+        margin: 0 0 10px 0; /* Remove right margin on mobile */
+    }
+}
