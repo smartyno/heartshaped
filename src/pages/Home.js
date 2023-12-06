@@ -5,6 +5,8 @@ import useWallet from '../context/wallet';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 
+const DEFAULT_ASSETS = ['15-KT1JMf7LDpe2n2g3p99xmru93Hg5vjSU3p65', '55897-KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr', '9-KT1MCMQJVN4yBHyXw4TZ3KB94QtovsWM7jdH'];
+
 const Home = () => {
   const { wallet, connectWallet, disconnectWallet } = useWallet();
   const navigate = useNavigate();
@@ -12,6 +14,16 @@ const Home = () => {
   const handleSignOut = async () => {
     await disconnectWallet();
     navigate('/');
+  };
+
+  const checkIfAssetExistsInDataBase = (slug = '', token_data) => {
+    const { fa_contract, token_id } = token_data;
+    console.log({ slug, token_data });
+    const splittedSlug = slug.split('-');
+    return (
+      splittedSlug[0] === token_id &&
+      splittedSlug[1] === fa_contract
+    );
   };
 
   const ASSETS_QUERY = gql`
@@ -35,7 +47,25 @@ const Home = () => {
   const { data: { token = [] } = {}, loading } = useQuery(ASSETS_QUERY);
 
   if (wallet && (loading || token.length === 0)) return <p>Loading...</p>;
-
+  console.log({token})
+  
+  const assets = token.map((token_data) => {
+    // const { token_id, fa_contract, display_uri } = token_data;
+    if (
+      DEFAULT_ASSETS?.some(slug =>
+        checkIfAssetExistsInDataBase(slug, token_data)
+      )
+    ) {
+      return (
+        <a href={`data/${token_data.token_id}/${token_data.fa_contract}`}>
+          <img key={token_data.token_id} src={`https://ipfs.io/ipfs/${token_data.display_uri.substring(7)}`}
+               alt='' />
+        </a>);
+    } else {
+      return null; // Return null for items that don't meet the condition
+    }
+  }).filter(Boolean);
+  
   return (
     <>
       <Helmet>
@@ -122,10 +152,8 @@ const Home = () => {
               {/*Repeat the above three grid items for the other six images*/}
             </div>
           </>
-        ) : <div>{token.map(({ token_id, fa_contract, display_uri }) => (
-          <a href={`data/${token_id}/${fa_contract}`}><img key={token_id}
-                                                           src={`https://ipfs.io/ipfs/${display_uri.substring(7)}`}
-                                                           alt='' /></a>))}</div>}
+        ) : <div>{assets.length ? assets : <p>no assets</p>}
+        </div>}
       </div>
     </>
   );
