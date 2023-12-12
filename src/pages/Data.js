@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import '../styles/data.css';
 
+
 const Data = () => {
   const { wallet, disconnectWallet } = useWallet();
   const navigate = useNavigate();
@@ -62,6 +63,8 @@ const Data = () => {
   console.log({ token, name, contract, display_uri, data, links, titles, tokenId, faContract });
   if (token.length === 0) return <div> No data found </div>;
 
+
+  
   return (
     <>
       <Helmet>
@@ -78,15 +81,19 @@ const Data = () => {
             <button className='button'>Commit Original</button>
           </div>
         </div>
+        <div className='script-container'>
         <img src={`https://ipfs.io/ipfs/${display_uri.substring(7)}`} alt='' />
-        {/*<div className='script-container' id='p5-canvas-container' />*/}
+        {/*<div className='script-container' id='p5-canvas-container' />*/} </div>
         <div className='text-container-right'>
           <h2>Right Text</h2>
           <p>This is the right text container.</p>
         </div>
       </div>
+
     </>
+    
   );
+  
 };
 
 export default Data;

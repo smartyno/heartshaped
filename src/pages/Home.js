@@ -58,7 +58,7 @@ const Home = () => {
     ) {
       return (
         <a href={`data/${token_data.token_id}/${token_data.fa_contract}`}>
-          <img key={token_data.token_id} src={`https://ipfs.io/ipfs/${token_data.display_uri.substring(7)}`}
+          <img className='wallet-item' key={token_data.token_id} src={`https://ipfs.io/ipfs/${token_data.display_uri.substring(7)}`}
                alt='' />
         </a>);
     } else {
@@ -96,56 +96,56 @@ const Home = () => {
             </div>
             <div className='grid-container'>
               <div className='grid-item'>
-                <img
-                  src='https://ipfs.io/ipfs/QmTcBXoreQXbgFr8Yug4BAkJ75LtLMgCdsyBwHpkHCgWsB'
+                <iframe 
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 1'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe 
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 2'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 3'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 4'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 5'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 6'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 7'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 8'
                 />
               </div>
               <div className='grid-item'>
-                <img
-                  src='https://assets.objkt.media/file/assets-003/QmYUyJ6WiQk1BRgcxKbYfd6tgUgRzVAMgCTtNHpu9NfXQv/artifact'
+                <iframe
+                  src='https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact'
                   alt='Image 9'
                 />
               </div>
