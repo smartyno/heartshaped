@@ -1,218 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-  <title>Reveal The Lake</title>
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
-      margin: 0;
-      padding-top: 60px;
-    }
+// DrawingComponent.js
+import React, { useEffect, useRef } from 'react';
+import p5 from 'p5';
 
-    .page-container {
-      display: flex;
-      max-width: 100%;
-      margin: 0 10px; /* Add margin to the container */
-    }
+const DrawingComponent = () => {
+  const p5ContainerRef = useRef();
 
-    .text-container {
-      width: 300px;
-      padding: 20px;
-      background-color: #f0f0f0;
-      margin-right: 10px; /* Add margin to the right */
-    }
+  useEffect(() => {
+    const sketch = (p) => {
+      let foregroundImg;
+      let backgroundImg;
+      let brushSize = 30;
+      let isDrawing = false;
 
-    .script-container {
-      width: 700px;
-      height: 700px;
-      overflow: hidden;
-      position: relative;
-    }
+      p.preload = function () {
+        let foregroundImageUrl =
+          'https://assets.objkt.media/file/assets-003/QmQKw5AB9Pj52dZiQ6tEE1epVEgFBriPw9wXzZWLa9med1/artifact';
+        foregroundImg = p.loadImage(foregroundImageUrl);
 
-    .script-container::before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      /* background-image: url('https://smartyno.github.io/heartshaped/Tom_shpd_HD.png');
-      background-size: contain; /* Change to 'contain' for a fit without cropping */
-      background-position: center;
-      z-index: -1;
-    }
-
-    .text-container-right {
-      width: 300px;
-      padding: 20px;
-      background-color: #f0f0f0;
-    }
-
-    .button-container {
-      margin-top: 20px;
-    }
-
-    .button {
-      width: 150px; /* Set the width to your desired fixed value */
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: #fff;
-      text-decoration: none;
-      text-align: center;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      display: block; /* Ensures each button is on a new line */
-      margin-bottom: 10px; /* Add some spacing between buttons */
-    }
-
-    @media screen and (max-width: 600px) {
-      .page-container {
-        flex-direction: column;
-      }
-      .text-container {
-        width: 300px;
-        margin: 0;
-        margin-bottom: 10px;
-      }
-      .script-container{
-            width: 340px;
-            height: 340px;
-      }
-      .text-container-right {
-        width: 300px;
-        margin: 0;
-        margin-bottom: 10px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="page-container">
-    <div class="text-container">
-      <h2>Left Text</h2>
-      <p>This is the left text container.</p>
-      <div class="button-container">
-        <a href="data.html" class="button">Commit Original</a>
-      </div>
-    </div>
-    <div class="script-container" id="p5-canvas-container"></div>
-    <div class="text-container-right">
-      <h2>Right Text</h2>
-      <p>This is the right text container.</p>
-    </div>
-  </div>
-
-  <script>
-    let foregroundImg; // Top image
-    let backgroundImg; // Background image
-    let brushSize = 30;
-    let isDrawing = false;
-
-    function preload() {
-      // Load the top (foreground) image from a URL
-      let foregroundImageUrl = 'https://assets.objkt.media/file/assets-003/Qma4tTjweMWFmpeCGhXZ1HNRmhF7uqkAXVPUKswQfTGuYQ/artifact';
-      foregroundImg = loadImage(foregroundImageUrl);
-
-      // Load the background image from a URL
-      let backgroundImageUrl = 'https://assets.objkt.media/file/assets-003/Qma4tTjweMWFmpeCGhXZ1HNRmhF7uqkAXVPUKswQfTGuYQ/artifact';
-      backgroundImg = loadImage(backgroundImageUrl);
-    }
-
-    function setup() {
-      // Set a fixed canvas size
-      let canvas = createCanvas(1400, 1400);
-      canvas.parent('p5-canvas-container');
-
-      // Resize images to fit the canvas while maintaining aspect ratio
-      foregroundImg.resize(width, height);
-      backgroundImg.resize(width, height);
-
-      // Add mouse event listeners
-      canvas.mousePressed(startDrawing);
-      canvas.mouseReleased(stopDrawing);
-
-      // Add touch event listeners for mobile devices
-      canvas.ontouchstart = function (event) {
-        startDrawing();
-        return false; // prevent default
+        let backgroundImageUrl =
+          'https://assets.objkt.media/file/assets-003/Qma4tTjweMWFmpeCGhXZ1HNRmhF7uqkAXVPUKswQfTGuYQ/artifact';
+        backgroundImg = p.loadImage(backgroundImageUrl);
       };
 
-      canvas.ontouchend = function (event) {
-        stopDrawing();
-        return false; // prevent default
+      p.setup = function () {
+        let canvas = p.createCanvas(1400, 1400);
+        canvas.parent('p5-canvas-container');
+
+        foregroundImg.resize(p.width, p.height);
+        backgroundImg.resize(p.width, p.height);
+
+        canvas.mousePressed(startDrawing);
+        canvas.mouseReleased(stopDrawing);
+
+        canvas.ontouchstart = function (event) {
+          startDrawing();
+          return false;
+        };
+
+        canvas.ontouchend = function (event) {
+          stopDrawing();
+          return false;
+        };
       };
-    }
 
-    function draw() {
-      // Scale down the content by 50%
-      scale(0.5);
+      p.draw = function () {
+        p.scale(0.5);
 
-      if (!isDrawing) {
-        // Initially, display the foreground image with transparency
-        background(255, 0); // Transparent background
-        image(foregroundImg, 0, 0, width, height);
-      } else {
-        // When drawing, reveal parts of the background image
-        let scaledMouseX = mouseX * 2; // Scale mouse coordinates back up
-        let scaledMouseY = mouseY * 2;
+        if (!isDrawing) {
+          p.background(255, 0);
+          p.image(foregroundImg, 0, 0, p.width, p.height);
+        } else {
+          let scaledMouseX = p.mouseX * 2;
+          let scaledMouseY = p.mouseY * 2;
 
-        // Draw a rectangle (brush) on the canvas to reveal the background image
-        noFill(); // No fill for the center
-        stroke(255); // White stroke for the border
-        strokeWeight(2); // Adjust the thickness of the border
-        rectMode(CENTER);
+          p.noFill();
+          p.stroke(255);
+          p.strokeWeight(2);
+          p.rectMode(p.CENTER);
 
-        // Draw the rectangle with a white border and no fill
-        rect(scaledMouseX, scaledMouseY, brushSize, brushSize);
+          p.rect(
+            scaledMouseX,
+            scaledMouseY,
+            brushSize,
+            brushSize
+          );
 
-        // Update the top image by copying the background image
-        foregroundImg.copy(
-          backgroundImg,
-          scaledMouseX - brushSize / 2,
-          scaledMouseY - brushSize / 2,
-          brushSize,
-          brushSize,
-          scaledMouseX - brushSize / 2,
-          scaledMouseY - brushSize / 2,
-          brushSize,
-          brushSize
-        );
+          foregroundImg.copy(
+            backgroundImg,
+            scaledMouseX - brushSize / 2,
+            scaledMouseY - brushSize / 2,
+            brushSize,
+            brushSize,
+            scaledMouseX - brushSize / 2,
+            scaledMouseY - brushSize / 2,
+            brushSize,
+            brushSize
+          );
 
-        // Display the updated top image
-        image(foregroundImg, 0, 0, width, height);
+          p.image(foregroundImg, 0, 0, p.width, p.height);
+        }
+      };
+
+      function startDrawing() {
+        isDrawing = true;
       }
-    }
 
-    function startDrawing() {
-      isDrawing = true;
-    }
+      function stopDrawing() {
+        isDrawing = false;
+      }
 
-    function stopDrawing() {
-      isDrawing = false;
-    }
+      p.mouseWheel = function (event) {
+        brushSize += event.delta;
+        brushSize = p.constrain(brushSize, 10, 100);
+        return false;
+      };
 
-    function mouseWheel(event) {
-      // Adjust the brush size with the mouse wheel
-      brushSize += event.delta;
-      brushSize = constrain(brushSize, 10, 100); // Limit the brush size
-      return false; // Prevent the default behavior of scrolling the page
-    }
-
-    // Disable right-click context menu on the canvas
-    document.getElementById("defaultCanvas").oncontextmenu = function () {
-      return false;
+      document.getElementById('defaultCanvas').oncontextmenu = function () {
+        return false;
+      };
     };
-  </script>
-</body>
-</html>
+
+    new p5(sketch, p5ContainerRef.current);
+
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
+
+  return <div id="p5-canvas-container" />;
+};
+
+export default DrawingComponent;

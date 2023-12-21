@@ -1,59 +1,127 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { useNavigate, useParams } from 'react-router-dom';
-import P5Wrapper from 'react-p5-wrapper'; // Import the P5Wrapper component
-import '../styles/data.css';
+import './data.css';
+import { useEffect, useRef } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import p5 from 'p5';
 
-// Define your p5.js sketch function
-const sketch = (p) => {
-  p.setup = () => {
-    p.createCanvas(400, 400);
-    p.background(200);
-  };
+function sketch(p) {
+    // p is a reference to the p5 instance this sketch is attached to
 
-  p.draw = () => {
-    p.fill(255, 0, 0);
-    p.ellipse(200, 200, 50, 50);
-  };
-};
+      let foregroundImg;
+      let backgroundImg;
+      let brushSize = 30;
+      let isDrawing = false;
 
-const Data = () => {
-  const { wallet, disconnectWallet } = useWallet();
-  const navigate = useNavigate();
-  const { tokenId, faContract } = useParams();
+      p.preload = function () {
+        let foregroundImageUrl =
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Nymphaea_nouchali5.JPG/440px-Nymphaea_nouchali5.JPG';
+        foregroundImg = p.loadImage(foregroundImageUrl);
 
-  const handleSignOut = async () => {
-    await disconnectWallet();
-    navigate('/');
-  };
+        let backgroundImageUrl =
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rosa_rubiginosa_1.jpg/440px-Rosa_rubiginosa_1.jpg';
+        backgroundImg = p.loadImage(backgroundImageUrl);
+      };
 
-  // Your existing component code...
+      
+    p.setup = function() {
+      let canvas = p.createCanvas(800, 800);
+        p.background(0);
 
-  return (
-    <>
-      <Helmet>
-        <title>Reveal The Lake</title>
-      </Helmet>
-      <header>
-        {wallet && <button className='button' onClick={handleSignOut}>Disconnect</button>}
-      </header>
-      <div className='page-container'>
-        <div className='text-container'>
-          <h2>Left Text</h2>
-          <p>This is the left text container.</p>
-          <div className='button-container'>
-            <button className='button'>Commit Original</button>
-          </div>
-        </div>
-        {/* Embed your p5.js sketch using P5Wrapper */}
-        <P5Wrapper sketch={sketch} />
-        <div className='text-container-right'>
-          <h2>Right Text</h2>
-          <p>This is the right text container.</p>
-        </div>
-      </div>
-    </>
-  );
-};
+        foregroundImg.resize(p.width, p.height);
+        backgroundImg.resize(p.width, p.height);
 
-export default Data;
+        canvas.mousePressed(startDrawing);
+        canvas.mouseReleased(stopDrawing);
+
+        canvas.ontouchstart = function (event) {
+          startDrawing();
+          return false;
+        };
+
+        canvas.ontouchend = function (event) {
+          stopDrawing();
+          return false;
+        };
+
+    }
+
+    p.draw = function() {
+        // your draw code here
+
+        p.scale(1.0); // set scale to fit the image
+
+        if (!isDrawing) {
+          p.background(255, 0);
+          p.image(foregroundImg, 0, 0, p.width, p.height);
+        } else {
+          let scaledMouseX = p.mouseX * 1; // adjust to scale
+          let scaledMouseY = p.mouseY * 1; // adjust toS scale
+
+          p.noFill();
+          p.stroke(255);
+          p.strokeWeight(2);
+          p.rectMode(p.CENTER);
+
+          p.rect(
+            scaledMouseX,
+            scaledMouseY,
+            brushSize,
+            brushSize
+          );
+
+          foregroundImg.copy(
+            backgroundImg,
+            scaledMouseX - brushSize / 2,
+            scaledMouseY - brushSize / 2,
+            brushSize,
+            brushSize,
+            scaledMouseX - brushSize / 2,
+            scaledMouseY - brushSize / 2,
+            brushSize,
+            brushSize
+          );
+
+          p.image(foregroundImg, 0, 0, p.width, p.height);
+        }
+    }
+
+    function startDrawing() {
+      isDrawing = true;
+    }
+
+    function stopDrawing() {
+      isDrawing = false;
+    }
+
+    p.mouseWheel = function (event) {
+      brushSize += event.delta;
+      brushSize = p.constrain(brushSize, 10, 100);
+      return false;
+    }
+}
+
+function App() {
+    // create a reference to the container in which the p5 instance should place the canvas
+    const navigate = useNavigate();
+    const [data, setData] = useState();
+    const [links, setLinks] = useState();
+    const [titles, setTitles] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    
+    const p5ContainerRef = useRef();
+
+    useEffect(() => {
+        // On component creation, instantiate a p5 object with the sketch and container reference 
+        const p5Instance = new p5(sketch, p5ContainerRef.current);
+
+        // On component destruction, delete the p5 instance
+        return () => {
+            p5Instance.remove();
+        }
+    }, []);
+
+    return (
+        <div className="App" ref={p5ContainerRef} />
+    );
+}
+
+export default App;
